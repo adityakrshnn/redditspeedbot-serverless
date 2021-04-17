@@ -1,0 +1,8 @@
+{
+    "tslint.configFile": "tslint.json",
+    "javascript.preferences.quoteStyle": "single",
+    "typescript.preferences.quoteStyle": "single",
+    "prettier.singleQuote": true,
+    "prettier.trailingComma": "all",
+    "editor.formatOnSave": true
+}

@@ -1,0 +1,28 @@
+org: adityakrshnn
+app: redditspeedbot-serverless
+service: redditspeedbot-serverless
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  timeout: 900
+  environment:
+    NODE_ENV: dev
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+
+package:
+  include:
+    - config/.env
+
+functions:
+  process:
+    handler: app/handler.process
+    layers:
+      - ${param:FFMPEG_LAMBDA_LAYER}
+    events:
+      - http:
+          path: process
+          method: post
