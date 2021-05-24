@@ -106,7 +106,10 @@ export class Reddit {
         }
 
         let playbackRate = parseFloat(
-          commentParts[positionOfUsername + 1].toLowerCase().replace('x', '')
+          commentParts[positionOfUsername + 1]
+            .toLowerCase()
+            .replace('x', '')
+            .replace(',', '.')
         );
         if (isNaN(playbackRate)) {
           resolve(null);

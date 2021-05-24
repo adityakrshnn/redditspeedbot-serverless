@@ -16,3 +16,5 @@ package-lock.json
 out-logger.json
 
 .DS_Store
+
+.env
