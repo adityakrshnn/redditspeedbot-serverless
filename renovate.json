@@ -1,5 +1,13 @@
 {
   "extends": [
     "config:base"
-  ]
+  ],
+  "ignorePresets": [
+    ":prHourlyLimit2",
+    ":automergeDisabled"
+  ],
+  "automerge": true,
+  "major": {
+    "automerge": false
+  }
 }
