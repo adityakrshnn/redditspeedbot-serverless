@@ -13,10 +13,6 @@ plugins:
   - serverless-plugin-typescript
   - serverless-offline
 
-package:
-  include:
-    - config/.env
-
 functions:
   process:
     handler: app/handler.process
@@ -26,3 +22,13 @@ functions:
       - http:
           path: process
           method: post
+    environment:
+      GFYCAT_CLIENT_ID: ${param:GFYCAT_CLIENT_ID}
+      GFYCAT_CLIENT_SECRET: ${param:GFYCAT_CLIENT_SECRET}
+      IMGUR_CLIENT_ID: ${param:IMGUR_CLIENT_ID}
+      REDDIT_USERNAME: ${param:REDDIT_USERNAME}
+      REDDIT_PASSWORD: ${param:REDDIT_PASSWORD}
+      REDDIT_KEY: ${param:REDDIT_KEY}
+      REDDIT_SECRET: ${param:REDDIT_SECRET}
+      CATBOX_USERHASH: ${param:CATBOX_USERHASH}
+      SENTRY_DSN: ${param:SENTRY_DSN}
