@@ -16,7 +16,6 @@
   ],
   "dependencies": {
     "@sentry/node": "^6.2.5",
-    "dotenv": "^8.2.0",
     "fluent-ffmpeg": "^2.1.2",
     "form-data": "^4.0.0",
     "got": "^11.8.2",
@@ -26,7 +25,6 @@
   "devDependencies": {
     "@types/aws-lambda": "8.10.92",
     "@types/chai": "4.3.0",
-    "@types/dotenv-safe": "8.1.2",
     "@types/fluent-ffmpeg": "2.1.20",
     "@types/lambda-tester": "3.6.1",
     "@types/mocha": "9.1.0",
