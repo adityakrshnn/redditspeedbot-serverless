@@ -43,7 +43,7 @@
     "nyc": "15.1.0",
     "serverless-layers": "2.5.1",
     "serverless-offline": "8.4.0",
-    "serverless-plugin-typescript": "1.2.0",
+    "serverless-plugin-typescript": "2.1.1",
     "sinon": "13.0.1",
     "ts-node": "10.4.0",
     "tslint": "6.1.3",
