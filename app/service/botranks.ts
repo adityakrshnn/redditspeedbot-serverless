@@ -1,4 +1,4 @@
-import got from 'got/dist/source';
+import { got } from 'got';
 
 class BotRanksResponseBody {
   rank: number;
