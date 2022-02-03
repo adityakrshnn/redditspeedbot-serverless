@@ -47,7 +47,15 @@ export class Render {
       // Get Metadata from file
       const metadata = await Utility.getMetadata(inputFileLocation);
       const codec = Utility.getCodecFromMetadata(metadata);
+
       redditBody.duration = Utility.getDurationFromMetadata(metadata);
+
+      console.log(
+        `File Size: ${((metadata.format.size ?? 0) / (1024 * 1024)).toFixed(
+          2
+        )} MB`
+      );
+      console.log(`File Duration: ${redditBody.duration} seconds`);
 
       // Get output file location
       const outputFileLocation = Utility.getOutputFileLocation(

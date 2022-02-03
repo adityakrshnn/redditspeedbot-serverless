@@ -123,6 +123,7 @@ export class Reddit {
           playbackRate = 25;
         }
 
+        console.log(`https://www.reddit.com${comment.permalink}`);
         resolve(playbackRate);
       } catch (error) {
         reject(error);
@@ -186,6 +187,7 @@ export class Reddit {
 
       // If comment is top-level
       const url = await Reddit.getUrlFromBody(redditBody);
+      console.log(url);
       return url;
     } catch (error) {
       console.error(error);

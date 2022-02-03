@@ -1,18 +1,38 @@
 // launch.json
+// {
+//   "version": "0.2.0",
+
+//   "configurations": [
+//     {
+//       "type": "node",
+//       "request": "launch",
+//       "name": "Debug Serverless",
+//       "cwd": "${workspaceFolder}",
+//       "runtimeExecutable": "npm",
+//       "runtimeArgs": ["run", "debug"],
+//       "outFiles": ["${workspaceFolder}\\handler.ts"],
+//       "port": 9229,
+//       "sourceMaps": true
+//     }
+//   ]
+// }
+
 {
   "version": "0.2.0",
-
   "configurations": [
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug Serverless",
-      "cwd": "${workspaceFolder}",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "debug"],
-      "outFiles": ["${workspaceFolder}\\handler.ts"],
-      "port": 9229,
-      "sourceMaps": true
+      "name": "Launch Program",
+      "program": "${workspaceFolder}/node_modules/.bin/sls",
+      "args": [
+        "invoke",
+        "local",
+        "-f",
+        "process",
+        "-d",
+        "{\"body\": {\"id\": \"gzav1so\",\"link_id\": \"njv0j5\"}}"
+      ]
     }
   ]
 }
