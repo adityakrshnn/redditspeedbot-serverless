@@ -2,6 +2,7 @@
   "extends": [
     "config:base"
   ],
+  "branchPrefix": "deps/",
   "hashedBranchLength": 6,
   "ignorePresets": [
     ":prHourlyLimit2",
