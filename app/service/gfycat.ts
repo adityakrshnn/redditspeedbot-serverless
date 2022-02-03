@@ -163,8 +163,8 @@ export class Gfycat {
     try {
       const authBody = {
         grant_type: 'client_credentials',
-        client_id: process.env.gfycatClientId,
-        client_secret: process.env.gfycatClientSecret,
+        client_id: process.env.GFYCAT_CLIENT_ID,
+        client_secret: process.env.GFYCAT_CLIENT_SECRET,
       };
 
       const response = await got.post('https://api.gfycat.com/v1/oauth/token', {
