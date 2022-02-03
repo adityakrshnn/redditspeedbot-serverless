@@ -2,6 +2,7 @@
   "extends": [
     "config:base"
   ],
+  "hashedBranchLength": 6,
   "ignorePresets": [
     ":prHourlyLimit2",
     ":automergeDisabled"
