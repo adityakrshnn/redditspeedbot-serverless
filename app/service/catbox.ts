@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import fs from 'fs';
-import got from 'got/dist/source';
+import got from 'got';
 import FormData from 'form-data';
 
 export class Catbox {

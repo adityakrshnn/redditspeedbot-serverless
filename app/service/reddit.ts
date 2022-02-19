@@ -1,4 +1,4 @@
-import got from 'got/dist/source';
+import got from 'got';
 import snoowrap from 'snoowrap';
 import { REGEX_PATTERNS } from '../constants/constants';
 import { Utility } from '../utils/utility';

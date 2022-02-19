@@ -1,4 +1,4 @@
-import got from 'got/dist/source';
+import got from 'got';
 import fs from 'fs';
 import { RedditBody } from './reddit';
 import FormData from 'form-data';
