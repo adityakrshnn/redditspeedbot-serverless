@@ -75,7 +75,7 @@ export class Render {
        * Start fetching bot rank
        */
       const botranks = new BotRanks();
-      botranks.startFetchingBotRank();
+      // botranks.startFetchingBotRank();
 
       // Process video
       const parameters = Utility.setParametersArray(

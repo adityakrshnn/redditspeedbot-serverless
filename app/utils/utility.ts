@@ -234,10 +234,10 @@ export class Utility {
     const keepAliveMessage =
       '[^(Keep me alive)](https://www.buymeacoffee.com/redditspeedbot)';
 
-    if (rank) {
-      const rankMessage = `[^(🏆#${rank})](${BOTRANK_LINK}) ^| `;
-      commentFooter += rankMessage;
-    }
+    // if (rank) {
+    //   const rankMessage = `[^(🏆#${rank})](${BOTRANK_LINK}) ^| `;
+    //   commentFooter += rankMessage;
+    // }
 
     commentFooter += keepAliveMessage;
 

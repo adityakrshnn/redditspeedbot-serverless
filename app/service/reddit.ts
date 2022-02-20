@@ -1,5 +1,5 @@
 import got from 'got/dist/source';
-import snoowrap from 'snoowrap';
+import snoowrap, { Comment } from 'snoowrap';
 import { REGEX_PATTERNS } from '../constants/constants';
 import { Utility } from '../utils/utility';
 import { Gfycat } from './gfycat';
@@ -325,55 +325,45 @@ export class Reddit {
     }
   }
 
-  sendResponseAsMessage(comment: string) {
+  async sendResponseAsMessage(comment: string) {
     return new Promise((resolve, reject) => {
-      if (this.redditBody.id) {
-        snoo
-          .getComment(this.redditBody.id)
-          .author.name.then(async (username: string) => {
-            let subredditName = 'the desired subreddit';
+      snoo
+        .getComment(this.redditBody.id)
+        .fetch()
+        .then((commentBody: Comment) => {
+          const username = commentBody.author.name;
+          let subredditName = 'the desired subreddit';
 
-            // Get subreddit name
-            try {
-              const subredditDisplayName = snoo.getComment(this.redditBody.id)
-                .subreddit.display_name;
-              if (!subredditDisplayName) {
-                throw new Error('Could not get subreddit name');
-              }
+          // Get subreddit name
+          if (commentBody.subreddit?.display_name) {
+            subredditName = `r/${commentBody.subreddit.display_name}`;
+          } else {
+            // Capture in sentry
+            const noSubredditNameObject = {
+              event: 'Could not get subreddit name',
+              error: new Error('Could not get subreddit name'),
+            };
+            sentry.captureException(noSubredditNameObject);
 
-              subredditName = `r/${subredditDisplayName}`;
-            } catch (error) {
-              // Capture in sentry
-              const noSubredditNameObject = {
-                event: 'Could not get subreddit name',
-                error,
-              };
-              sentry.captureException(noSubredditNameObject);
+            console.error('Could not get subreddit name');
+          }
 
-              console.error('Could not get subreddit name');
-            }
+          comment += `\n\n\n\n_(You are getting this message delivered to your inbox because unfortunately, Redditspeedbot was unable to comment in ${subredditName})_`;
 
-            comment += `\n\n\n\n_(You are getting this message delivered to your inbox because unfortunately, Redditspeedbot was unable to comment in ${subredditName})_`;
-
-            // Send message to user
-            snoo
-              .composeMessage({
-                to: username,
-                subject: 'Redditspeedbot response',
-                text: comment,
-              })
-              .then((response) => {
-                resolve(response);
-              })
-              .catch((error) => {
-                reject(error);
-              });
-          })
-          .catch((error) => {
-            console.error('Could not find username');
-            reject(error);
-          });
-      }
+          // Send message to user
+          snoo
+            .composeMessage({
+              to: username,
+              subject: 'Redditspeedbot response',
+              text: comment,
+            })
+            .then((response) => {
+              resolve(response);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        });
     });
   }
 }
