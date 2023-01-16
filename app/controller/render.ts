@@ -98,6 +98,12 @@ export class Render {
       );
       console.log(finalUrl);
 
+      if (!Utility.isValidHttpUrl(finalUrl)) {
+        const error = 'Invalid URL formed';
+        console.log(error);
+        return Utility.errorResponse(error);
+      }
+
       // Make comment on reddit
       const comment = Utility.makeComment(
         redditBody,
