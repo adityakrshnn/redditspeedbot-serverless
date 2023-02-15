@@ -76,10 +76,9 @@ export class Reddit {
     }
   }
 
-  getPlaybackRateFromComment(commentID: string): Promise<number> {
+  getPlaybackRateFromComment(comment: Comment): Promise<number> {
     return new Promise(async (resolve, reject) => {
       try {
-        const comment = await Reddit.getComment(commentID);
         const commentBody = comment.body;
         const commentParts = commentBody.split(' ');
         let positionOfUsername = -1;
@@ -366,4 +365,9 @@ export class Reddit {
         });
     });
   }
+
+  getUnreadMessages = async () => {
+    const messages = await snoo.getUnreadMessages();
+    console.log(messages);
+  };
 }

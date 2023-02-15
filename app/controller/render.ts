@@ -4,6 +4,8 @@ import { Sentry } from '../service/sentry';
 import { Utility } from '../utils/utility';
 import { Upload } from './upload';
 
+const BLOCKED_SUBREDDITS = JSON.parse(process.env.BLOCKED_SUBREDDITS ?? '[]');
+
 export class Render {
   constructor() {}
 
@@ -22,10 +24,21 @@ export class Render {
         return Utility.errorResponse(error);
       }
 
+      const comment = await Reddit.getComment(redditBody.id);
+
+      /**
+       * Check for blocked subreddits
+       */
+      if (BLOCKED_SUBREDDITS.includes(comment.subreddit_name_prefixed)) {
+        console.log(
+          `Comment from blocked subreddit ${comment.subreddit_name_prefixed}: ${redditBody.id}, ${redditBody.link_id}`
+        );
+        await sentry.flush(2000);
+        return Utility.okResponse();
+      }
+
       // Get playback rate from comment
-      const playbackRate = await reddit.getPlaybackRateFromComment(
-        redditBody.id
-      );
+      const playbackRate = await reddit.getPlaybackRateFromComment(comment);
       if (!playbackRate) {
         const error = 'Comment corrupted or Playback rate not within range';
         console.error(error);
@@ -105,13 +118,13 @@ export class Render {
       }
 
       // Make comment on reddit
-      const comment = Utility.makeComment(
+      const responseComment = Utility.makeComment(
         redditBody,
         finalUrl,
         playbackRate,
         botranks.rank
       );
-      const redditMessage = await reddit.commentOnReddit(comment);
+      const redditMessage = await reddit.commentOnReddit(responseComment);
       console.log(redditMessage);
 
       // Delete Files
