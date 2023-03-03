@@ -33,12 +33,11 @@ export class Reddit {
     this.redditBody = redditBody;
   }
 
-  commentOnReddit(comment: string) {
+  commentOnReddit(comment: Comment, commentReply: string) {
     return new Promise((resolve, reject) => {
       if (this.redditBody.id) {
-        snoo
-          .getComment(this.redditBody.id)
-          .reply(comment)
+        comment
+          .reply(commentReply)
           .then((response) => {
             resolve(response);
           })
@@ -47,7 +46,7 @@ export class Reddit {
 
             // Failed to comment, try sending a message
             try {
-              await this.sendResponseAsMessage(comment);
+              await this.sendResponseAsMessage(commentReply, comment);
               resolve('Message sent successfully');
             } catch (err) {
               reject(err);
@@ -55,7 +54,7 @@ export class Reddit {
           });
       } else {
         console.log('Comment was');
-        console.log(comment);
+        console.log(commentReply);
         reject(new Error('Could not find comment ID'));
       }
     });
@@ -170,22 +169,26 @@ export class Reddit {
     }
   }
 
-  static async getUrlToProcess(redditBody: RedditBody) {
+  static async getUrlToProcess(redditBody: RedditBody, comment: Comment) {
     try {
-      const parentID = await Reddit.getParentID(redditBody.id);
+      const parentID = comment.parent_id;
+      let url: string;
+
+      /**
+       * If comment is not top-level
+       */
       if (parentID.includes('t1_')) {
-        let url = await Reddit.getUrlFromComment(parentID);
+        url = await Reddit.getUrlFromComment(parentID);
         if (url) {
           return url;
         }
-
-        // If no url is found
-        url = await Reddit.getUrlFromBody(redditBody);
-        return url;
       }
 
       // If comment is top-level
-      const url = await Reddit.getUrlFromBody(redditBody);
+      if (!url) {
+        url = await Reddit.getUrlFromBody(redditBody);
+      }
+
       console.log(url);
       return url;
     } catch (error) {
@@ -273,17 +276,6 @@ export class Reddit {
     }
   }
 
-  static getParentID(commentID: string): Promise<string> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const comment = await Reddit.getComment(commentID);
-        resolve(comment.parent_id);
-      } catch (error) {
-        reject(error);
-      }
-    });
-  }
-
   static async getUrlFromComment(commentID: string) {
     try {
       const comment = await Reddit.getComment(commentID);
@@ -324,44 +316,39 @@ export class Reddit {
     }
   }
 
-  async sendResponseAsMessage(comment: string) {
+  async sendResponseAsMessage(commentReply: string, comment: Comment) {
     return new Promise((resolve, reject) => {
+      const username = comment.author.name;
+      let subredditName = 'the desired subreddit';
+
+      // Get subreddit name
+      if (comment.subreddit?.display_name) {
+        subredditName = `r/${comment.subreddit.display_name}`;
+      } else {
+        // Capture in sentry
+        const noSubredditNameObject = {
+          event: 'Could not get subreddit name',
+          error: new Error('Could not get subreddit name'),
+        };
+        sentry.captureException(noSubredditNameObject);
+
+        console.error('Could not get subreddit name');
+      }
+
+      commentReply += `\n\n\n\n_(You are getting this message delivered to your inbox because unfortunately, Redditspeedbot was unable to comment in ${subredditName})_`;
+
+      // Send message to user
       snoo
-        .getComment(this.redditBody.id)
-        .fetch()
-        .then((commentBody: Comment) => {
-          const username = commentBody.author.name;
-          let subredditName = 'the desired subreddit';
-
-          // Get subreddit name
-          if (commentBody.subreddit?.display_name) {
-            subredditName = `r/${commentBody.subreddit.display_name}`;
-          } else {
-            // Capture in sentry
-            const noSubredditNameObject = {
-              event: 'Could not get subreddit name',
-              error: new Error('Could not get subreddit name'),
-            };
-            sentry.captureException(noSubredditNameObject);
-
-            console.error('Could not get subreddit name');
-          }
-
-          comment += `\n\n\n\n_(You are getting this message delivered to your inbox because unfortunately, Redditspeedbot was unable to comment in ${subredditName})_`;
-
-          // Send message to user
-          snoo
-            .composeMessage({
-              to: username,
-              subject: 'Redditspeedbot response',
-              text: comment,
-            })
-            .then((response) => {
-              resolve(response);
-            })
-            .catch((error) => {
-              reject(error);
-            });
+        .composeMessage({
+          to: username,
+          subject: 'Redditspeedbot response',
+          text: commentReply,
+        })
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
         });
     });
   }

@@ -18,13 +18,13 @@ export class Render {
       }
       console.log(redditBody);
       const reddit = new Reddit(redditBody);
+      const comment = await Reddit.getComment(redditBody.id);
+      redditBody.link_id = comment.link_id;
 
       if (!Utility.sanityCheckForBody(redditBody)) {
         const error = 'Missing link_id or id or comment by self';
         return Utility.errorResponse(error);
       }
-
-      const comment = await Reddit.getComment(redditBody.id);
 
       /**
        * Check for blocked subreddits
@@ -46,7 +46,7 @@ export class Render {
       }
 
       // Get url from request body
-      const url = await Reddit.getUrlToProcess(redditBody);
+      const url = await Reddit.getUrlToProcess(redditBody, comment);
       if (!url) {
         throw Error('No url found in comment or post');
       }
@@ -118,13 +118,13 @@ export class Render {
       }
 
       // Make comment on reddit
-      const responseComment = Utility.makeComment(
+      const commentReply = Utility.makeComment(
         redditBody,
         finalUrl,
         playbackRate,
         botranks.rank
       );
-      const redditMessage = await reddit.commentOnReddit(responseComment);
+      const redditMessage = await reddit.commentOnReddit(comment, commentReply);
       console.log(redditMessage);
 
       // Delete Files
