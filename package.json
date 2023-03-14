@@ -23,7 +23,7 @@
     "stream": "0.0.2"
   },
   "devDependencies": {
-    "@types/aws-lambda": "8.10.111",
+    "@types/aws-lambda": "8.10.112",
     "@types/chai": "4.3.4",
     "@types/fluent-ffmpeg": "2.1.21",
     "@types/lambda-tester": "3.6.2",
