@@ -248,15 +248,15 @@ export class Utility {
 
   static sanityCheckForBody(body: RedditBody) {
     if (!body.link_id) {
-      console.error('Missing link_id');
+      console.log('Missing link_id');
       return false;
     }
     if (!body.id) {
-      console.error('Missing id');
+      console.log('Missing id');
       return false;
     }
     if (body.author === 'redditspeedbot') {
-      console.error('Comment by self');
+      console.log('Comment by self');
       return false;
     }
     return true;

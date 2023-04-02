@@ -22,8 +22,7 @@ export class Render {
       redditBody.link_id = comment.link_id;
 
       if (!Utility.sanityCheckForBody(redditBody)) {
-        const error = 'Missing link_id or id or comment by self';
-        return Utility.errorResponse(error);
+        return Utility.okResponse();
       }
 
       /**
@@ -42,13 +41,14 @@ export class Render {
       if (!playbackRate) {
         const error = 'Comment corrupted or Playback rate not within range';
         console.error(error);
-        return Utility.errorResponse(error);
+        return Utility.okResponse();
       }
 
       // Get url from request body
       const url = await Reddit.getUrlToProcess(redditBody, comment);
       if (!url) {
-        throw Error('No url found in comment or post');
+        console.error('No url found in comment or post');
+        return Utility.okResponse();
       }
 
       // Get input file location
@@ -81,7 +81,7 @@ export class Render {
       if (!presence.video) {
         const error = 'No video streams';
         console.log(error);
-        return Utility.errorResponse(error);
+        return Utility.okResponse();
       }
 
       /**
@@ -114,7 +114,7 @@ export class Render {
       if (!Utility.isValidHttpUrl(finalUrl)) {
         const error = 'Invalid URL formed';
         console.log(error);
-        return Utility.errorResponse(error);
+        return Utility.okResponse();
       }
 
       // Make comment on reddit

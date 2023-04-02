@@ -5,7 +5,7 @@ service: redditspeedbot-serverless
 provider:
   name: aws
   runtime: nodejs14.x
-  timeout: 900
+  timeout: 600
   environment:
     NODE_ENV: dev
 
