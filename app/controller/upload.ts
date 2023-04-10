@@ -1,5 +1,5 @@
 import { Catbox } from '../service/catbox';
-import { Gfycat } from '../service/gfycat';
+import { Imgur } from '../service/imgur';
 import { RedditBody } from '../service/reddit';
 
 export class Upload {
@@ -15,11 +15,7 @@ export class Upload {
           const response = await Catbox.uploadFileToCatbox(outputFileLocation);
           resolve(response);
         } else {
-          const response = await Gfycat.uploadFileToGfycat(
-            outputFileLocation,
-            playbackRate,
-            redditBody
-          );
+          const response = await Imgur.uploadFileToImgur(outputFileLocation);
           resolve(response);
         }
       } catch (error) {
