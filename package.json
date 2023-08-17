@@ -33,7 +33,7 @@
     "@types/supertest": "2.0.12",
     "chai": "4.3.7",
     "cross-env": "7.0.3",
-    "ffmpeg-static": "4.4.1",
+    "ffmpeg-static": "5.2.0",
     "ffprobe-static": "3.1.0",
     "istanbul": "0.4.5",
     "lambda-tester": "4.0.1",
