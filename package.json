@@ -42,7 +42,7 @@
     "serverless": "3.35.2",
     "serverless-layers": "2.6.1",
     "serverless-offline": "8.8.1",
-    "serverless-plugin-typescript": "2.1.1",
+    "serverless-plugin-typescript": "2.1.5",
     "sinon": "13.0.2",
     "ts-node": "10.9.1",
     "tslint": "6.1.3",
