@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "8.10.126",
-    "@types/chai": "4.3.9",
+    "@types/chai": "4.3.10",
     "@types/fluent-ffmpeg": "2.1.24",
     "@types/lambda-tester": "3.6.2",
     "@types/mocha": "9.1.1",
