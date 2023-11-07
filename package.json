@@ -28,7 +28,7 @@
     "@types/fluent-ffmpeg": "2.1.24",
     "@types/lambda-tester": "3.6.2",
     "@types/mocha": "9.1.1",
-    "@types/request": "2.48.11",
+    "@types/request": "2.48.12",
     "@types/sinon": "10.0.20",
     "@types/supertest": "2.0.15",
     "chai": "4.3.10",
