@@ -39,7 +39,7 @@
     "lambda-tester": "4.0.1",
     "mocha": "9.2.2",
     "nyc": "15.1.0",
-    "serverless": "3.36.0",
+    "serverless": "3.37.0",
     "serverless-layers": "2.7.0",
     "serverless-offline": "8.8.1",
     "serverless-plugin-typescript": "2.1.5",
