@@ -11,7 +11,7 @@ export class Upload {
     return new Promise(async (resolve, reject) => {
       try {
         const finalDuration = redditBody.duration / playbackRate;
-        if (finalDuration >= 59) {
+        if (finalDuration >= 59 || redditBody.nsfw) {
           const response = await Catbox.uploadFileToCatbox(outputFileLocation);
           resolve(response);
         } else {
