@@ -15,7 +15,7 @@
     "lint"
   ],
   "dependencies": {
-    "@sentry/node": "^6.2.5",
+    "@sentry/node": "^8.0.0",
     "fluent-ffmpeg": "^2.1.2",
     "form-data": "^4.0.0",
     "got": "^11.8.2",
